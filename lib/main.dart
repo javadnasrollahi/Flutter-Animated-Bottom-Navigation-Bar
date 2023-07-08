@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_bottom_navigation_bar/models/tabIcon.dart';
+import 'package:flutter_animated_bottom_navigation_bar/pages/help_screen.dart';
+import 'package:flutter_animated_bottom_navigation_bar/pages/home_screen.dart';
+import 'package:flutter_animated_bottom_navigation_bar/pages/order_screen.dart';
+import 'package:flutter_animated_bottom_navigation_bar/pages/profile_screen.dart';
+import 'package:flutter_animated_bottom_navigation_bar/pages/shop_screen.dart';
 import 'package:flutter_animated_bottom_navigation_bar/widgets/bottom_bar_view.dart';
 
 void main() {
@@ -33,19 +38,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   AnimationController? animationController;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
-  Widget tabBody = Container(
-    color:Colors.red,
-  );
+  Widget tabBody = const HomeScreen();
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab) {
+    for (var tab in tabIconsList) {
       tab.isSelected = false;
-    });
-    tabIconsList[0].isSelected = true;
-
+    }
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-
     super.initState();
   }
 
@@ -61,6 +61,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
     return Container(
       color: const Color(0xFFF2F3F8),
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Animated Bottom Navigation Bar",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+        ),
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
           future: getData(),
@@ -96,9 +99,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
           tabIconsList: tabIconsList,
           addClick: () {
             setState(() {
-              tabBody = Container(
-                color:Colors.transparent,
-              );
+              tabBody = const HomeScreen();
+              for (var tab in tabIconsList) {
+                tab.isSelected = false;
+              }
             });
           },
           changeIndex: (int index) {
@@ -108,21 +112,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
                 }
                 setState(() {
                   if(index == 0){
-                    tabBody = Container(
-                      color:Colors.red,
-                    );
+                    tabBody = const HelpScreen();
                   }else if(index == 1){
-                    tabBody = Container(
-                      color:Colors.green,
-                    );
+                    tabBody = const OrderScreen();
                   }else if(index == 2){
-                    tabBody = Container(
-                      color:Colors.yellow,
-                    );
+                    tabBody = const ShopScreen();
                   }else if(index == 3){
-                    tabBody = Container(
-                      color:Colors.orange,
-                    );
+                    tabBody = const ProfileScreen();
                   }
                 });
               });
